@@ -10,6 +10,7 @@ export type NearNetworkConnectionConfig = {
 
 export type NearNetworkContractsConfig = {
   usdtContractId: string;
+  investmentContractId: string | null;
 };
 
 export type NearNetworkConfig = {
@@ -34,6 +35,7 @@ export const NEAR_NETWORKS: Record<NearNetworkId, NearNetworkConfig> = {
     },
     contracts: {
       usdtContractId: "usdt.tether-token.near",
+      investmentContractId: null,
     },
   },
   testnet: {
@@ -51,6 +53,7 @@ export const NEAR_NETWORKS: Record<NearNetworkId, NearNetworkConfig> = {
     },
     contracts: {
       usdtContractId: "kenrou-usdt.testnet",
+      investmentContractId: "kenrou-investment.testnet",
     },
   },
 };

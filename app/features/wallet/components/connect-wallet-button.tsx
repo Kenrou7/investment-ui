@@ -77,44 +77,40 @@ export function ConnectWalletButton({
     <div className={`flex flex-col gap-2 ${className}`.trim()}>
       {isConnected && accountId ? (
         <div ref={dropdownRef} className="relative w-full min-w-[18rem] sm:min-w-[22rem]">
-          <button
-            type="button"
-            onClick={() => setIsOpen((current) => !current)}
-            className={[
-              "grid w-full grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-full border border-transparent",
-              "bg-[var(--foreground)] text-white shadow-[0_12px_30px_rgba(31,36,48,0.18)]",
-              "transition duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--accent-strong)]",
-              sizeClasses,
-            ].join(" ")}
-            aria-expanded={isDropdownOpen}
-            aria-haspopup="menu"
-          >
-            <span aria-hidden="true" />
-            <span className="flex items-center justify-center gap-2 text-center">
-              <span>{accountId}</span>
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  void handleCopyAccountId();
-                }}
-                className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/12 text-[0.72rem] transition hover:bg-white/20"
-                aria-label="Copy account ID"
-                title={copied ? "Copied" : "Copy account ID"}
-              >
-                {copied ? "✓" : "⧉"}
-              </button>
-            </span>
-            <span
-              aria-hidden="true"
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsOpen((current) => !current)}
               className={[
-                "justify-self-end text-[0.7em] transition-transform duration-200",
-                isDropdownOpen ? "rotate-180" : "rotate-0",
+                "flex min-w-0 flex-1 items-center justify-between gap-3 rounded-full border border-transparent",
+                "bg-[var(--foreground)] text-white shadow-[0_12px_30px_rgba(31,36,48,0.18)]",
+                "transition duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--accent-strong)]",
+                sizeClasses,
               ].join(" ")}
+              aria-expanded={isDropdownOpen}
+              aria-haspopup="menu"
             >
-              ▼
-            </span>
-          </button>
+              <span className="truncate">{accountId}</span>
+              <span
+                aria-hidden="true"
+                className={[
+                  "shrink-0 text-[0.7em] transition-transform duration-200",
+                  isDropdownOpen ? "rotate-180" : "rotate-0",
+                ].join(" ")}
+              >
+                ▼
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => void handleCopyAccountId()}
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--foreground)] text-[0.72rem] text-white shadow-[0_12px_30px_rgba(31,36,48,0.18)] transition hover:bg-[color:var(--accent-strong)]"
+              aria-label="Copy account ID"
+              title={copied ? "Copied" : "Copy account ID"}
+            >
+              {copied ? "✓" : "⧉"}
+            </button>
+          </div>
 
           {isDropdownOpen ? (
             <div className="absolute right-0 top-[calc(100%+0.5rem)] z-30 w-full overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[rgba(255,250,245,0.98)] p-1.5 shadow-[0_18px_44px_rgba(35,22,13,0.18)] backdrop-blur-xl">

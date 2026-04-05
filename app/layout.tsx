@@ -3,6 +3,8 @@ import { DM_Sans, Fraunces } from "next/font/google";
 import "@near-wallet-selector/modal-ui/styles.css";
 import "./globals.css";
 import { NearWalletProvider } from "@/app/features/wallet/context/near-wallet-provider";
+import { QueryProvider } from "@/app/features/query/query-provider";
+import { Toaster } from "sonner";
 
 const bodyFont = DM_Sans({
   variable: "--font-body",
@@ -30,7 +32,10 @@ export default function RootLayout({
       className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}
     >
       <body className="min-h-full">
-        <NearWalletProvider>{children}</NearWalletProvider>
+        <QueryProvider>
+          <NearWalletProvider>{children}</NearWalletProvider>
+          <Toaster position="bottom-right" richColors />
+        </QueryProvider>
       </body>
     </html>
   );

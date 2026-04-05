@@ -31,4 +31,5 @@ export const nearConfig = {
 	explorerUrl: connection.explorerUrl,
 	walletUrl: connection.walletUrl,
 	usdtContractId: contracts.usdtContractId,
+	investmentContractId: contracts.investmentContractId,
 };

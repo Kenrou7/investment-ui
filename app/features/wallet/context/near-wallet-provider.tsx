@@ -3,11 +3,18 @@
 import type { WalletSelector } from "@near-wallet-selector/core";
 import { createContext, startTransition, useContext, useEffect, useState } from "react";
 import { initializeWalletSelector, showWalletModal } from "@/app/features/wallet/lib/wallet-selector";
+import type { NajFunctionCallAction } from "@/app/lib/near/nep141";
+
+type SignAndSendTransactionParams = {
+  receiverId: string;
+  actions: NajFunctionCallAction[];
+};
 
 type NearWalletContextValue = {
   accountId: string | null;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
+  signAndSendTransaction: (params: SignAndSendTransactionParams) => Promise<void>;
   error: string | null;
   isConnected: boolean;
   isConnecting: boolean;
@@ -112,6 +119,16 @@ export function NearWalletProvider({ children }: { children: React.ReactNode }) 
     }
   }
 
+  async function signAndSendTransaction({ receiverId, actions }: SignAndSendTransactionParams) {
+    if (!selector || !accountId) {
+      throw new Error("Wallet is not connected.");
+    }
+
+    const wallet = await selector.wallet();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await wallet.signAndSendTransaction({ signerId: accountId, receiverId, actions: actions as any });
+  }
+
   async function disconnect() {
     if (!selector) {
       return;
@@ -139,6 +156,7 @@ export function NearWalletProvider({ children }: { children: React.ReactNode }) 
         accountId,
         connect,
         disconnect,
+        signAndSendTransaction,
         error,
         isConnected: Boolean(accountId),
         isConnecting,
