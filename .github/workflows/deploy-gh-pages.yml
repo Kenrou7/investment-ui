@@ -16,6 +16,8 @@ concurrency:
 
 jobs:
   build:
+    environment:
+      name: github-pages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,6 +35,8 @@ jobs:
       - name: Build static export
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_PUBLIC_NEAR_NETWORK_ID: ${{ vars.NEXT_PUBLIC_NEAR_NETWORK_ID || secrets.NEXT_PUBLIC_NEAR_NETWORK_ID || 'testnet' }}
+          NEXT_PUBLIC_NEAR_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_NEAR_CONTRACT_ID || secrets.NEXT_PUBLIC_NEAR_CONTRACT_ID || '' }}
         run: npm run build
 
       - name: Add .nojekyll
